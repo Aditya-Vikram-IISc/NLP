@@ -93,3 +93,4 @@ def pad_and_truncate_reviews(reviews_encoded: list[list[int]], seq_length:int):
 
     
     return feature_array
+
