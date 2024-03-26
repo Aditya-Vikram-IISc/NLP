@@ -2,6 +2,7 @@
 # Basic text processing functions
 
 import os
+import numpy as np
 from string import punctuation
 from collections import Counter
 
@@ -72,3 +73,23 @@ def map_words_to_index(review: str, vocab_to_int_mapper: dict)-> list[int]:
 
     return review_encoded
     
+
+def pad_and_truncate_reviews(reviews_encoded: list[list[int]], seq_length:int):
+
+    # create a zero array of size #num_reviews X seq_length
+    feature_array = np.zeros((len(reviews_encoded), seq_length), dtype = int)
+
+    for index, review in enumerate(reviews_encoded):
+        
+        # trucate if length if review is larger than SEQUENCE_LENGTH
+        if len(review) >= seq_length:
+            review = review[:seq_length]
+        
+        # else pad it with zeros
+        elif len(review) < seq_length:
+            review = list(np.zeros((seq_length-len(review)), dtype =int)) + review
+
+        feature_array[index, :] = np.array(review)
+
+    
+    return feature_array
