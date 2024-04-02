@@ -71,13 +71,13 @@ class SentimentLSTM(nn.Module):
         return out, hidden
 
 
-    def init_hidden(self, batch_size):
+    def init_hidden(self, batch_size, device):
         ''' Initializes hidden state '''
         # Create two new tensors (hidden state, and cell state) with sizes n_layers x batch_size x hidden_dim,
         # initialized to zero, for hidden state and cell state of LSTM
         weight = next(self.parameters()).data
     
-        hidden = (weight.new(self.n_layers, batch_size, self.hidden_dim).zero_(),
-                    weight.new(self.n_layers, batch_size, self.hidden_dim).zero_())
+        hidden = (weight.new(self.n_layers, batch_size, self.hidden_dim).zero_().to(device),
+                    weight.new(self.n_layers, batch_size, self.hidden_dim).zero_().to(device))
     
         return hidden
